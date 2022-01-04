@@ -29,8 +29,27 @@ public class Tree {
         return root;
     }
 
-    public void print() {
-        System.out.println(this.root);
+    public Node contains(int key, Node root) {
+        if (root == null) return null;
+        if (root.getKey() == key) return root;
+        if (root.getKey() > key) return contains(key, root.getEsq());
+        return contains(key, root.getDir());
+    }
+
+    public int elementCount(Node root) {
+        if (root == null) return 0;
+        return elementCount(root.getEsq())
+                + 1 + elementCount(root.getDir());
+    }
+
+    public void print(Node root) {
+        if (root != null) {
+            System.out.print(root.getKey());
+            System.out.print("(");
+            print(root.getEsq());
+            print(root.getDir());
+            System.out.print(")");
+        }
     }
 }
 
