@@ -51,5 +51,65 @@ public class Tree {
             System.out.print(")");
         }
     }
+
+    public Node removeNode(Node root, int key) {
+        Node[] nodes = findNodeToRemoveAndItsFather(root, key);
+        assert nodes != null;
+        Node father = (nodes[0] != null) ? nodes[0] : null;
+        Node nodeToRemove = nodes[1];
+        Node fatherFromWhomItWillBeAscended;
+        Node nodeToAscend;
+
+        if (nodeToRemove == null) return root;
+
+        if (nodeToRemove.getEsq() == null || nodeToRemove.getDir() == null) {
+            nodeToAscend = (nodeToRemove.getEsq() != null) ? nodeToRemove.getEsq() : nodeToRemove.getDir();
+        } else {
+            fatherFromWhomItWillBeAscended = nodeToRemove;
+            nodeToAscend = nodeToRemove.getEsq();
+            while(nodeToAscend.getDir() != null) {
+                fatherFromWhomItWillBeAscended = nodeToAscend;
+                nodeToAscend = nodeToAscend.getDir();
+            }
+
+            if (fatherFromWhomItWillBeAscended != nodeToRemove) {
+                fatherFromWhomItWillBeAscended.setDir(nodeToAscend.getEsq());
+                nodeToAscend.setEsq(nodeToRemove.getEsq());
+            }
+            nodeToAscend.setDir(nodeToRemove.getDir());
+        }
+
+        if(father == null) {
+            cleanNode(nodeToRemove);
+            return nodeToAscend;
+        }
+        if (key < father.getKey()) {
+            father.setEsq(nodeToAscend);
+        } else {
+            father.setDir(nodeToAscend);
+        }
+        cleanNode(nodeToRemove);
+        return root;
+    }
+
+    private Node[] findNodeToRemoveAndItsFather(Node root, int key) {
+        Node current = root;
+        Node father;
+        Node[] nodes = new Node[2];
+        while (current != null) {
+            if (current.getKey() == key) return nodes;
+            father = current;
+            current = (key < current.getKey()) ? current.getEsq() : current.getDir();
+            nodes[0] = father;
+            nodes[1] = current;
+        }
+        return null;
+    }
+
+    private void cleanNode(Node node) {
+        node.setKey(0);
+        node.setEsq(null);
+        node.setDir(null);
+    }
 }
 
