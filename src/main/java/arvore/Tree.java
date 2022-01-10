@@ -42,16 +42,6 @@ public class Tree {
                 + 1 + elementCount(root.getDir());
     }
 
-    public void print(Node root) {
-        if (root != null) {
-            System.out.print(root.getKey());
-            System.out.print("(");
-            print(root.getEsq());
-            print(root.getDir());
-            System.out.print(")");
-        }
-    }
-
     public Node removeNode(Node root, int key) {
         Node[] nodes = findNodeToRemoveAndItsFather(root, key);
         assert nodes != null;
@@ -94,11 +84,10 @@ public class Tree {
 
     private Node[] findNodeToRemoveAndItsFather(Node root, int key) {
         Node current = root;
-        Node father;
-        Node[] nodes = new Node[2];
+        Node[] nodes = new Node[]{null, current};
         while (current != null) {
             if (current.getKey() == key) return nodes;
-            father = current;
+            Node father = current;
             current = (key < current.getKey()) ? current.getEsq() : current.getDir();
             nodes[0] = father;
             nodes[1] = current;

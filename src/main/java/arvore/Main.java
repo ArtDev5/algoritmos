@@ -49,19 +49,22 @@ public class Main {
         tree.setRoot(
                 tree.insert(tree.getRoot(), node9));
 
-        tree.print(tree.getRoot());
-        System.out.println();
-        System.out.println(tree.elementCount(tree.getRoot()));
+        System.out.println("antes de remover: " + tree.elementCount(tree.getRoot()));
 
         tree.setRoot(
-                tree.removeNode(tree.getRoot(), 12));
+                tree.removeNode(tree.getRoot(), 18));
 
-        System.out.println(tree.contains(14, tree.getRoot()));
+        System.out.println("depois de remover: " + tree.elementCount(tree.getRoot()));
 
-        tree.print(tree.getRoot());
-        System.out.println();
-        System.out.println(tree.elementCount(tree.getRoot()));
+        Node node10 = new Node(30);
 
+        tree.setRoot(
+                tree.insert(tree.getRoot(), node10));
+
+        System.out.println("após inserir mais um: " + tree.elementCount(tree.getRoot()));
+
+        System.out.println(tree.contains(18, tree.getRoot()));
+        System.out.println(tree.contains(16, tree.getRoot()));
+        System.out.println(tree.contains(30, tree.getRoot()));
     }
-
 }
